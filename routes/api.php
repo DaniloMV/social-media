@@ -23,6 +23,7 @@ Route::middleware(['auth:api'])->prefix('/user')->group(function () {
         return $request->user();
     });
 
+    Route::get('/all', 'API\UserController@getAllUsers');
     Route::get('/followers', 'API\UserController@getFollowers');
     Route::get('/following', 'API\UserController@getFollowing');
     Route::post('/toggle', 'API\UserController@toggleFriend');

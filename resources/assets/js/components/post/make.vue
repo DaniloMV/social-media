@@ -1,0 +1,62 @@
+<template>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div v-if="showLoading">
+                    <h1>Loading</h1>
+                </div>
+                <div class="col-md-8 col-md-offset-2" v-else="">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <a class="pull-left" href="#"><img class="media-object"
+                                                                       src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png"
+                                                                       height="64" width="64"></a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading" v-text="user.name"></h4>
+                                        <textarea placeholder="Make Your Story" class="form-control"></textarea>
+                                        <br>
+                                        <div class="btn-group btn-group-justified">
+                                            <a href="#" class="btn btn-default"><i
+                                                    class="fa fa-fw fa-photo"></i>Photo</a>
+                                            <a href="#" class="btn btn-default"><i
+                                                    class="fa fa-fw fa-video-camera"></i>Video</a>
+                                            <a href="#" class="btn btn-default"><i
+                                                    class="fa fa-fw fa-check"></i>Post</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                showLoading: true,
+                user: {}
+            }
+        },
+        mounted() {
+            this.getUser();
+        },
+        methods: {
+            getUser() {
+                this.$http.get('/api/user/').then((response) => {
+                    this.showLoading = false;
+                    this.user = response.data;
+                    console.info(this.user);
+                }, (response) => {
+                    console.error(response.bodyText);
+                });
+            }
+        }
+    }
+</script>

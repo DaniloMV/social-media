@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+require('vue-resource');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,6 +16,11 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('post-list', require('./components/post/list.vue'));
+Vue.component('post-make', require('./components/post/make.vue'));
+Vue.component('friends', require('./components/friends/friends.vue'));
+
+Vue.http.headers.common['X-CSRF-TOKEN'] = window.axios.defaults.headers.common['X-CSRF-TOKEN'];
 
 const app = new Vue({
     el: '#app'

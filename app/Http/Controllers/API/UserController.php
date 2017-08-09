@@ -3,10 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    /**
+     * Get all users
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllUsers()
+    {
+        return User::all();
+    }
+
     /**
      * Those who followed you
      * @return mixed
