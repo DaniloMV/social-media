@@ -38,7 +38,7 @@ class User extends Authenticatable
     }
 
     /**
-     * those who follow me
+     * Those who followed you
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function followers()
@@ -47,7 +47,7 @@ class User extends Authenticatable
     }
 
     /**
-     * those who I follow
+     * Those who you following
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function following()

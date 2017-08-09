@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::middleware(['auth:api'])->prefix('/user')->group(function () {
+
+    Route::get('/', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/followers', 'API\UserController@getFollowers');
+    Route::get('/following', 'API\UserController@getFollowing');
+    Route::post('/toggle', 'API\UserController@toggleFriend');
+
 });
