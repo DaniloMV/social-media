@@ -21,6 +21,21 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('followers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('follower_id');
+            $table->unsignedInteger('followed_id');
+            $table->timestamps();
+
+            $table->foreign('follower_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('followed_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+        });
     }
 
     /**
@@ -30,6 +45,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::drop('followers', function (Blueprint $table) {
+            $table->dropForeign('followers_follower_id_foreign');
+            $table->dropForeign('followers_followed_id_foreign');
+        });
+
         Schema::dropIfExists('users');
     }
 }
