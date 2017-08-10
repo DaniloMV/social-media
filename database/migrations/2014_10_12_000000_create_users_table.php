@@ -23,10 +23,10 @@ class CreateUsersTable extends Migration
         });
 
         Schema::create('followers', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('follower_id');
             $table->unsignedInteger('followed_id');
-            $table->timestamps();
+
+            $table->primary(['follower_id', 'followed_id']);
 
             $table->foreign('follower_id')
                 ->references('id')->on('users')
@@ -45,10 +45,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('followers', function (Blueprint $table) {
-            $table->dropForeign('followers_follower_id_foreign');
-            $table->dropForeign('followers_followed_id_foreign');
-        });
+//        Schema::drop('followers', function (Blueprint $table) {
+//            $table->dropForeign('followers_follower_id_foreign');
+//            $table->dropForeign('followers_followed_id_foreign');
+//        });
+        Schema::dropIfExists('followers');
 
         Schema::dropIfExists('users');
     }

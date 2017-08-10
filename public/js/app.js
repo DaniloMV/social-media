@@ -21453,6 +21453,7 @@
             var rnothtmlwhite = ( /[^\x20\t\r\n\f]+/g );
 
 
+
 // Convert String-formatted options into Object-formatted ones
             function createOptions(options) {
                 var object = {};
@@ -22084,6 +22085,8 @@
             };
 
 
+
+
 // The deferred used on DOM ready
             var readyList = jQuery.Deferred();
 
@@ -22159,6 +22162,8 @@
                 // A fallback to window.onload, that will always work
                 window.addEventListener("load", completed);
             }
+
+
 
 
 // Multifunctional method to get and set values of a collection
@@ -22386,6 +22391,7 @@
             var dataPriv = new Data();
 
             var dataUser = new Data();
+
 
 
 //	Implementation Summary
@@ -22900,6 +22906,7 @@
             var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
 
             var rscriptType = ( /^$|\/(?:java|ecma)script/i );
+
 
 
 // We have to close these tags to support XHTML (#13200)
@@ -26299,6 +26306,8 @@
             });
 
 
+
+
 // Return jQuery for attributes-only inclusion
 
 
@@ -26543,6 +26552,7 @@
             var nonce = jQuery.now();
 
             var rquery = ( /\?/ );
+
 
 
 // Cross-browser xml parsing
@@ -27774,6 +27784,8 @@
             });
 
 
+
+
 // Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
             jQuery.ajaxPrefilter(function (s) {
                 if (s.crossDomain) {
@@ -27936,6 +27948,8 @@
             });
 
 
+
+
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
 // collapse sibling forms: the second one becomes a child of the first one.
@@ -28061,6 +28075,8 @@
 
                 return this;
             };
+
+
 
 
 // Attach a bunch of functions for handling common AJAX events
@@ -28372,6 +28388,8 @@
             jQuery.isArray = Array.isArray;
             jQuery.parseJSON = JSON.parse;
             jQuery.nodeName = nodeName;
+
+
 
 
 // Register as a named AMD module, since jQuery can be concatenated with other
@@ -44226,7 +44244,6 @@
                     this.$http.get('/api/user/').then(function (response) {
                         _this.showLoading = false;
                         _this.user = response.data;
-                        console.info(_this.user);
                     }, function (response) {
                         console.error(response.bodyText);
                     });
@@ -44480,64 +44497,69 @@
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
         /* harmony default export */
         __webpack_exports__["default"] = ({
             data: function data() {
                 return {
-                    showList: false,
-                    users: {}
+                    showUsers: false,
+                    showFollowers: false,
+                    showFollowings: false,
+                    users: {},
+                    followers: {},
+                    followings: {}
                 };
             },
             mounted: function mounted() {
                 this.getAllUsers();
+                this.getFollowed();
+                this.getFollowing();
             },
 
             methods: {
-                toggleList: function toggleList() {
-                    if (this.showList) {
-                        this.showList = false;
-                    } else {
-                        this.showList = true;
-                    }
-                },
                 getAllUsers: function getAllUsers() {
                     var _this = this;
 
+                    this.showUsers = false;
                     this.$http.get('/api/user/all').then(function (response) {
-                        _this.showList = true;
+                        _this.showUsers = true;
                         _this.users = response.data;
-                        console.info(_this.users);
+                        console.info('Users:' + _this.users);
+                    }, function (response) {
+                        console.error(response.bodyText);
+                    });
+                },
+                getFollowed: function getFollowed() {
+                    var _this2 = this;
+
+                    this.showFollowers = false;
+                    this.$http.get('/api/user/followers').then(function (response) {
+                        _this2.showFollowers = true;
+                        _this2.followers = response.data;
+                        console.info('Followers:' + _this2.followers);
+                    }, function (response) {
+                        console.error(response.bodyText);
+                    });
+                },
+                getFollowing: function getFollowing() {
+                    var _this3 = this;
+
+                    this.showFollowings = false;
+                    this.$http.get('/api/user/followings').then(function (response) {
+                        _this3.showFollowings = true;
+                        _this3.followings = response.data;
+                        console.info('Followings:' + _this3.followings);
+                    }, function (response) {
+                        console.error(response.bodyText);
+                    });
+                },
+                toggleFollow: function toggleFollow(user_id) {
+                    var _this4 = this;
+
+                    var data = {id: user_id};
+                    this.$http.post('/api/user/toggle', data).then(function (response) {
+                        console.info(response.data);
+                        _this4.getFollowed();
                     }, function (response) {
                         console.error(response.bodyText);
                     });
@@ -44562,27 +44584,14 @@
                 }, [_c('div', {
                     staticClass: "section"
                 }, [_c('div', {
-                    staticClass: "container"
-                }, [_c('div', {
-                    staticClass: "row"
-                }, [_c('div', {
-                    staticClass: "col-md-12"
-                }, [_c('a', {
-                    staticClass: "btn btn-block btn-success",
-                    on: {
-                        "click": _vm.toggleList
-                    }
-                }, [_vm._v("Toggle User List")])])])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
-                    staticClass: "section"
-                }, [_c('div', {
                     staticClass: "container-fluid"
-                }, [(_vm.showList) ? _c('div', {
+                }, [_c('div', {
                     staticClass: "row"
                 }, [_c('div', {
                     staticClass: "col-md-4"
                 }, [_c('div', {
                     staticClass: "panel panel-primary"
-                }, [_vm._m(0), _vm._v(" "), _c('div', {
+                }, [_vm._m(0), _vm._v(" "), (_vm.showUsers) ? _c('div', {
                     staticClass: "panel-body"
                 }, [_c('table', {
                     staticClass: "table"
@@ -44595,8 +44604,65 @@
                         domProps: {
                             "textContent": _vm._s(user.email)
                         }
-                    }), _vm._v(" "), _vm._m(2, true)])
-                }))])])])]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)]) : _vm._e()])])])
+                    }), _vm._v(" "), _c('td', [_c('button', {
+                        staticClass: "btn btn-primary",
+                        on: {
+                            "click": function ($event) {
+                                _vm.toggleFollow(user.id)
+                            }
+                        }
+                    }, [_vm._v("Follow\n                                        ")])])])
+                }))])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+                    staticClass: "col-md-4"
+                }, [_c('div', {
+                    staticClass: "panel panel-primary"
+                }, [_vm._m(2), _vm._v(" "), (_vm.showFollowers) ? _c('div', {
+                    staticClass: "panel-body"
+                }, [_c('table', {
+                    staticClass: "table"
+                }, [_vm._m(3), _vm._v(" "), _c('tbody', _vm._l((_vm.followers), function (follower) {
+                    return _c('tr', [_c('td', {
+                        domProps: {
+                            "textContent": _vm._s(follower.name)
+                        }
+                    }), _vm._v(" "), _c('td', {
+                        domProps: {
+                            "textContent": _vm._s(follower.email)
+                        }
+                    }), _vm._v(" "), _c('td', [_c('button', {
+                        staticClass: "btn btn-danger",
+                        on: {
+                            "click": function ($event) {
+                                _vm.toggleFollow(follower.id)
+                            }
+                        }
+                    }, [_vm._v("\n                                            Unfollow\n                                        ")])])])
+                }))])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+                    staticClass: "col-md-4"
+                }, [_c('div', {
+                    staticClass: "panel panel-primary"
+                }, [_vm._m(4), _vm._v(" "), (_vm.showFollowings) ? _c('div', {
+                    staticClass: "panel-body"
+                }, [_c('table', {
+                    staticClass: "table"
+                }, [_vm._m(5), _vm._v(" "), _c('tbody', _vm._l((_vm.followings), function (following) {
+                    return _c('tr', [_c('td', {
+                        domProps: {
+                            "textContent": _vm._s(following.name)
+                        }
+                    }), _vm._v(" "), _c('td', {
+                        domProps: {
+                            "textContent": _vm._s(following.email)
+                        }
+                    }), _vm._v(" "), _c('td', [_c('button', {
+                        staticClass: "btn btn-danger",
+                        on: {
+                            "click": function ($event) {
+                                _vm.toggleFollow(following.id)
+                            }
+                        }
+                    }, [_vm._v("Follow\n                                        ")])])])
+                }))])]) : _vm._e()])])])])])])
             }, staticRenderFns: [function () {
                 var _vm = this;
                 var _h = _vm.$createElement;
@@ -44615,51 +44681,30 @@
                 var _vm = this;
                 var _h = _vm.$createElement;
                 var _c = _vm._self._c || _h;
-                return _c('td', [_c('a', {
-                    staticClass: "btn btn-primary"
-                }, [_vm._v("Follow")])])
+                return _c('div', {
+                    staticClass: "panel-heading"
+                }, [_c('h3', {
+                    staticClass: "panel-title"
+                }, [_vm._v("Followed")])])
+            }, function () {
+                var _vm = this;
+                var _h = _vm.$createElement;
+                var _c = _vm._self._c || _h;
+                return _c('thead', [_c('tr', [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Status")])])])
             }, function () {
                 var _vm = this;
                 var _h = _vm.$createElement;
                 var _c = _vm._self._c || _h;
                 return _c('div', {
-                    staticClass: "col-md-4"
-                }, [_c('div', {
-                    staticClass: "panel panel-primary"
-                }, [_c('div', {
                     staticClass: "panel-heading"
                 }, [_c('h3', {
                     staticClass: "panel-title"
-                }, [_vm._v("Followed")])]), _vm._v(" "), _c('div', {
-                    staticClass: "panel-body"
-                }, [_c('table', {
-                    staticClass: "table"
-                }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Status")])])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("Mark")]), _vm._v(" "), _c('td', [_vm._v("Otto")]), _vm._v(" "), _c('td', [_c('a', {
-                    staticClass: "btn btn-danger"
-                }, [_vm._v("Unfollow")])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("Jacob")]), _vm._v(" "), _c('td', [_vm._v("Thornton")]), _vm._v(" "), _c('td', [_c('a', {
-                    staticClass: "btn btn-danger"
-                }, [_vm._v("Unfollow")])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("Larry")]), _vm._v(" "), _c('td', [_vm._v("the Bird")]), _vm._v(" "), _c('td', [_vm._v("@twitter")])])])])])])])
+                }, [_vm._v("Following")])])
             }, function () {
                 var _vm = this;
                 var _h = _vm.$createElement;
                 var _c = _vm._self._c || _h;
-                return _c('div', {
-                    staticClass: "col-md-4"
-                }, [_c('div', {
-                    staticClass: "panel panel-primary"
-                }, [_c('div', {
-                    staticClass: "panel-heading"
-                }, [_c('h3', {
-                    staticClass: "panel-title"
-                }, [_vm._v("Following")])]), _vm._v(" "), _c('div', {
-                    staticClass: "panel-body"
-                }, [_c('table', {
-                    staticClass: "table"
-                }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Status")])])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("Mark")]), _vm._v(" "), _c('td', [_vm._v("Otto")]), _vm._v(" "), _c('td', [_c('a', {
-                    staticClass: "btn btn-primary"
-                }, [_vm._v("Follow")])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("Jacob")]), _vm._v(" "), _c('td', [_vm._v("Thornton")]), _vm._v(" "), _c('td', [_c('a', {
-                    staticClass: "btn btn-primary"
-                }, [_vm._v("Follow")])])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("Larry")]), _vm._v(" "), _c('td', [_vm._v("the Bird")]), _vm._v(" "), _c('td', [_vm._v("@twitter")])])])])])])])
+                return _c('thead', [_c('tr', [_c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Status")])])])
             }]
         }
         module.exports.render._withStripped = true

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -39,8 +40,11 @@ class UserController extends Controller
     /**
      * Toggle follower
      */
-    public function toggleFriend()
+    public function toggleFriend(Request $request)
     {
         $user = Auth::user();
+        $friends = User::find($request->input('id'));
+        $user->followers()->toggle($friends);
+        return $user->followers()->get();
     }
 }

@@ -52,7 +52,6 @@
                 this.$http.get('/api/user/').then((response) => {
                     this.showLoading = false;
                     this.user = response.data;
-                    console.info(this.user);
                 }, (response) => {
                     console.error(response.bodyText);
                 });
