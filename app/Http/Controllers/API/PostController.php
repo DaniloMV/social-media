@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Zend\Diactoros\Request;
 
 class PostController extends Controller
 {
@@ -13,6 +14,16 @@ class PostController extends Controller
      */
     public function getPosts()
     {
-        return Auth::user()->posts()->paginate(15);
+        $posts = Auth::user()->followers()->with('posts')->get();
+        $result = Auth::user()->posts()->get();
+        foreach ($posts as $post) {
+            $result->push($post->post);
+        }
+        return $result;
+    }
+
+    public function makePost(Request $request)
+    {
+        return $request->all();
     }
 }

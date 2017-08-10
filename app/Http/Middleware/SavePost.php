@@ -15,6 +15,7 @@ class SavePost
      */
     public function handle($request, Closure $next)
     {
+//        if ($request->all())
         return $next($request);
     }
 }

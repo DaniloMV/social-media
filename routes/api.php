@@ -29,3 +29,10 @@ Route::middleware(['auth:api'])->prefix('/user')->group(function () {
     Route::post('/toggle', 'API\UserController@toggleFriend');
 
 });
+
+Route::middleware(['auth:api'])->prefix('/post')->group(function () {
+
+    Route::get('/', 'API\PostController@getPosts');
+    Route::post('/make', 'API\PostController@makePost')->middleware('post');
+
+});

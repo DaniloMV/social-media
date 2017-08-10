@@ -2,7 +2,7 @@
     <div class="section">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-8 col-md-offset-2" v-if="showPosts">
                     <div class="panel panel-primary">
                         <div class="panel-body">
                             <ul class="media-list">
@@ -46,17 +46,18 @@
     export default {
         data() {
             return {
-                showLoading: true,
+                showPosts: false,
                 user: {}
             }
         },
         mounted() {
+            this.getPosts();
         },
         methods: {
-            getUser() {
-                this.$http.get('/api/user/').then((response) => {
-                    this.showLoading = false;
+            getPosts() {
+                this.$http.get('/api/post/').then((response) => {
                     console.info(response.data);
+                    this.showPosts = true;
                 }, (response) => {
                     console.error(response.bodyText);
                 });
